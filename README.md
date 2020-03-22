@@ -62,18 +62,29 @@ Each time that we use the command `docker run` we are creating a new container (
 
 `docker exec -i -t nginx bash` - It permits us to execute a command in a container that is up.
 
-## 4. Mapping ports and share files
+## 5. Mapping ports and share files
 
 `docker run --rm --name nginx -d -p 8080:80 nginx` - With this, we map the port 8080 of our computer to the port 80 of the container.
 
 `docker run --rm -d --name nginx -p 8080:80 -v $(pwd):/usr/share/nginx/html nginx` - With the option `-v` we can mount the directory that we have in our computer (`$(pwd)`) in the directory inside the container (`/usr/share/nginx/html`).
 
-## 5. Docker logs
+## 6. Docker logs
 
 `docker logs nginx` - We can read the logs of the container called `nginx`.
 
 `docker logs -f nginx` - With the option `-f` (follow) the log will keep open and refreshing similar to `tail -f`.
 
-## 6. Docker images layers
+## 7. Docker images layers
 
 The images in Docker are made up by a list of only-read layers that represent each change in the file system. This layers form a stack to create the base of the container file system. Over these only-read layers, exists a writable content layer that belongs to each container.
+
+## 8. Creating Docker images with Docker commit
+
+<p align="center">
+  docker commit &lt;container_id&gt; &lt;image_name&gt;:&lt;image_tag&gt;
+</p>
+
+  1. Initiate a conainter using a base image - `docker run -it debian:stretch bash`
+  2. We install in this container all that we need (for example, igt) - `apt-get update; apt-get install git`(In bash inside the container)
+  3. We make commit after our changes - `docker commit dd141af2ebb4 git:2.11.0`
+  4. Now, we can create a new container using this new image - `docker run -it git:2.11.0 bash`
