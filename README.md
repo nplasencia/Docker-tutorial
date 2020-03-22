@@ -120,6 +120,7 @@ Each instruction adds a new layer to the image.
   
   ```dockerfile
   FROM debian:stretch
+  
   RUN apt-get update && apt-get install -y git && apt-get install -y vim
   ```
     
@@ -127,6 +128,7 @@ Each instruction adds a new layer to the image.
   
   ```dockerfile
   FROM debian:stretch
+  
   RUN apt-get update && \
       apt-get install -y \
       git \
@@ -135,3 +137,48 @@ Each instruction adds a new layer to the image.
   ```
 
   ### Dockerfile commands
+
+  #### CMD
+  
+  With this command we indicate which command we want to execute when our container has been initiated. If we don't write any CMD command, we will use the CMD command indicated in the base image.
+  
+  ```dockerfile
+  FROM debian:stretch
+  
+  RUN apt-get update \
+      && apt-get install -y \
+      git \
+      vim
+      
+  CMD ["echo", "Hello world"]
+  ```
+
+  #### COPY
+  
+  With this command we can copy new files or folders directly from our build context to the container filesystem.
+  
+  ```dockerfile
+  FROM debian:stretch
+  
+  RUN apt-get update \
+      && apt-get install -y \
+      git \
+      vim
+  
+  COPY abc.txt /src/abc.txt
+  
+  CMD ["echo", "Hello world"]
+  ```
+  
+  #### ADD
+  
+  It is similar to COPY but it lets us to download files from internet and add them to our container.
+  
+  Try to use always COPY and use ADD only when it is strictly necessary.
+  
+## 10. Publishing our Docker images on Docker Hub
+
+  1. Create an account on [Docker Hub](https://hub.docker.com).
+  2. Add a tag to our image that conatins our namespace - `docker tag <image_id> nauzetplasencia/git:2.11.0`.
+  3. `docker login`.
+  4. `docker push nauzetplasencia/git:2.11.0`.
